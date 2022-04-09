@@ -32,6 +32,7 @@ import logging
 import sys
 import datetime
 
+
 import os
 import csv
 from itertools import islice
@@ -64,6 +65,10 @@ from dmr_utils3.utils import int_id, get_alias, try_download, mk_full_id_dict, b
 
 # Configuration variables and constants
 from config import *
+
+if TELEGRAM_BOT:
+    import telebot
+    bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
 # SP2ONG - Increase the value if HBlink link break occurs
 NetstringReceiver.MAX_LENGTH = 500000
@@ -631,6 +636,17 @@ def process_message(_bmessage):
             if p[1] == 'END':
                 log_message = '{} {} {}   SYS: {:8.8s} SRC_ID: {:9.9s} TS: {} TGID: {:7.7s} {:17.17s} SUB: {:9.9s}; {:18.18s} Time: {}s '.format(_now[10:19], p[0][6:], p[1], p[3], p[5],p[7],p[8],alias_tgid(int(p[8]),talkgroup_ids), p[6], alias_short(int(p[6]), subscriber_ids), int(float(p[9])))
                 # log only to file if system is NOT OpenBridge event (not logging open bridge system, name depends on your OB definitions) AND transmit time is LONGER as 2sec (make sense for very short transmits)
+                if TELEGRAM_BOT:
+                    destinazione = alias_tgid(int(p[8]),talkgroup_ids)
+                    qrz = alias_short(int(p[6]), subscriber_ids)
+                    tempo = float(p[9])
+                    dmrid = str(int(p[6]))
+                    sorgente = str(int(p[5]))
+                    if TELEGRAM_TG != '0' and str(destinazione) in TELEGRAM_TG.split(','):
+                        #print ('TEST')
+                        bot.send_message(TELEGRAM_CHATID, '*Call*: ' + qrz[:-4] + '\n*User ID*: ' + dmrid + '\n*Destination*: '+ destinazione + '\n*Source ID*: ' + sorgente + '\n*Duration*: ' + str(tempo) + 's \U0001f4e1', parse_mode='Markdown')
+                    elif TELEGRAM_TG == '0':
+                       bot.send_message(TELEGRAM_CHATID, '*Call*: ' + qrz[:-4] + '\n*User ID*: ' + dmrid + '\n*Destination*: '+ destinazione + '\n*Source ID*: ' + sorgente + '\n*Duration*: ' + str(tempo) + 's \U0001f4e1', parse_mode='Markdown')
                 if LASTHEARD_INC:
                    if int(float(p[9]))> 2: 
                       log_lh_message = '{},{},{},{},{},{},{},TS{},TG{},{},{},{}'.format(_now, p[9], p[0], p[1], p[3], p[5], alias_call(int(p[5]), subscriber_ids), p[7], p[8],alias_tgid(int(p[8]),talkgroup_ids),p[6], alias_short(int(p[6]), subscriber_ids))
@@ -832,7 +848,7 @@ if __name__ == '__main__':
     logger = logging.getLogger(__name__)
 
     logging.info('monitor.py starting up')
-    logger.info('\n\n\tCopyright (c) 2016, 2017, 2018, 2019\n\tThe Regents of the K0USY Group. All rights reserved.\n\n\tPython 3 port:\n\t2019 Steve Miller, KC1AWV <smiller@kc1awv.net>\n\n\tHBMonitor v1 SP2ONG 2019-2021\n\n')
+    logger.info('\n\n\tCopyright (c) 2016, 2017, 2018, 2019, 2020, 2021, 2022\n\tThe Regents of the K0USY Group. All rights reserved.\n\n\tPython 3 port:\n\t2019 Steve Miller, KC1AWV <smiller@kc1awv.net>\n\nTELEGRAM EDITION by IU7IGU 2022\n\n\tHBMonitor v1 SP2ONG 2019-2021\n\n')
     # Check lastheard.log file
     if os.path.isfile(LOG_PATH+"lastheard.log"):
       try:

@@ -11,6 +11,11 @@ HBLINK_PORT     = 4321                           # HBlink's TCP reporting socket
 FREQUENCY       = 10                             # Frequency to push updates to web clients
 WEB_SERVER_PORT = 8080                           # Has to be above 1024 if you're not running as root
 CLIENT_TIMEOUT  = 0                              # Clients are timed out after this many seconds, 0 to disable
+#
+TELEGRAM_BOT    = False                                                 #Telegram bot function
+TELEGRAM_TOKEN  = 'xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'     #Telegram bot token get from BotFather
+TELEGRAM_CHATID = 'xxxxxxxxx'                                          #Telegram Channel ID to send Lastheard messages
+TELEGRAM_TG     = "0"                                                  #If 0 Telegram send all tg traffic of HBLink else for example: "260210,260211,260212"
 
 # Put list of NETWORK_ID from OPB links to don't show local traffic in lastheard, for example: "260210,260211,260212"
 OPB_FILTER = ""
