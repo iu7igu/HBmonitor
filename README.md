@@ -1,4 +1,6 @@
 
+***THIS VERSION OF HBmonitor INCLUDES TELEGRAM BOT FEATURES***
+
 
 **HBmonitor is a "web dashboard" for HBlink by N0MJS.**
 
@@ -36,6 +38,9 @@ HBMonitor V1:
     to do not display unnecessary entries in LASTHEARD.
     
     Please remember the table lastherad displays only station transmissions that are longer than 2 seconds.
+    
+    Edit TELEGRAM SECTION with your's bot data for send lastheard qso to channel or group.
+    
     
     If you don't want to have the lasherad list set in config.py :  
       LASTHEARD_INC = False
