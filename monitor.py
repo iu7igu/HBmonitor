@@ -642,7 +642,7 @@ def process_message(_bmessage):
                     tempo = float(p[9])
                     dmrid = str(int(p[6]))
                     sorgente = str(int(p[5]))
-                    if TELEGRAM_TG != '0' and str(destinazione) in TELEGRAM_TG.split(','):
+                    if TELEGRAM_TG != '0' and str(p[8]) in TELEGRAM_TG.split(','):
                         #print ('TEST')
                         bot.send_message(TELEGRAM_CHATID, '*Call*: ' + qrz[:-4] + '\n*User ID*: ' + dmrid + '\n*Destination*: '+ destinazione + '\n*Source ID*: ' + sorgente + '\n*Duration*: ' + str(tempo) + 's \U0001f4e1', parse_mode='Markdown')
                     elif TELEGRAM_TG == '0':
