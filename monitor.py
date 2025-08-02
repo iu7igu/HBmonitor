@@ -642,11 +642,12 @@ def process_message(_bmessage):
                     tempo = float(p[9])
                     dmrid = str(int(p[6]))
                     sorgente = str(int(p[5]))
+                    qrzurl = "https://www.qrz.com/db/"
                     if TELEGRAM_TG != '0' and str(p[8]) in TELEGRAM_TG.split(','):
                         #print ('TEST')
-                        bot.send_message(TELEGRAM_CHATID, '*Call*: ' + qrz[:-4] + '\n*User ID*: ' + dmrid + '\n*Destination*: '+ destinazione + '\n*Source ID*: ' + sorgente + '\n*Duration*: ' + str(tempo) + 's \U0001f4e1', parse_mode='Markdown')
+                        bot.send_message(TELEGRAM_CHATID, '*Call*: [' + qrz[:-4] + ']('+ qrzurl + qrz[:-4] + ')\n*User ID*: ' + dmrid + '\n*Destination*: '+ destinazione + '\n*Source ID*: ' + sorgente + '\n*Duration*: ' + str(tempo) + 's \U0001f4e1', parse_mode='Markdown')
                     elif TELEGRAM_TG == '0':
-                       bot.send_message(TELEGRAM_CHATID, '*Call*: ' + qrz[:-4] + '\n*User ID*: ' + dmrid + '\n*Destination*: '+ destinazione + '\n*Source ID*: ' + sorgente + '\n*Duration*: ' + str(tempo) + 's \U0001f4e1', parse_mode='Markdown')
+                       bot.send_message(TELEGRAM_CHATID, '*Call*: [' + qrz[:-4] + ']('+ qrzurl + qrz[:-4] + ')\n*User ID*: ' + dmrid + '\n*Destination*: '+ destinazione + '\n*Source ID*: ' + sorgente + '\n*Duration*: ' + str(tempo) + 's \U0001f4e1', parse_mode='Markdown')
                 if LASTHEARD_INC:
                    if int(float(p[9]))> 2: 
                       log_lh_message = '{},{},{},{},{},{},{},TS{},TG{},{},{},{}'.format(_now, p[9], p[0], p[1], p[3], p[5], alias_call(int(p[5]), subscriber_ids), p[7], p[8],alias_tgid(int(p[8]),talkgroup_ids),p[6], alias_short(int(p[6]), subscriber_ids))
